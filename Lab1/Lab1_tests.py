@@ -46,6 +46,5 @@ class Tests_for_my_code(unittest.TestCase): # создаём класс тест
         self.assertEqual(Lab1_code.target([-1, 4, 45, -3, 2, 9, 4], 8), [0, 5])
 
 
-
 if __name__ == '__main__':
     unittest.main()
