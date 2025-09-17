@@ -18,7 +18,7 @@ class Tests_for_my_code(unittest.TestCase): # создаём класс тест
     def test_target_not_num(self): # тест target, являющегося не числом
         self.assertEqual(Lab1_code.target([1, 3, 88, 45], 'a'), None)
 
-    def test_not_nums(self): # тусе target, являющегося числом с плавующей точкой
+    def test_not_nums(self): # тест target, являющегося числом с плавующей точкой
         self.assertEqual(Lab1_code.target([45, 87, 6, 55], 46.8), None)
 
     def test_same_sum(self): # тест одинаковых сумм
@@ -47,4 +47,5 @@ class Tests_for_my_code(unittest.TestCase): # создаём класс тест
 
 
 if __name__ == '__main__':
+
     unittest.main()
