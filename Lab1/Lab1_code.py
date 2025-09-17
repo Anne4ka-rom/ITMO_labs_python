@@ -15,8 +15,8 @@ def target(nums: list[int], target: int):
         return min(l) # возвращаем минимальную пару индексов
     else:
         return None # возвращаем None
-    
                 
 
 result = target([3,3, 3, 3], 6) # результат записываем в переменную result
+
 print(result) # выводим результат
