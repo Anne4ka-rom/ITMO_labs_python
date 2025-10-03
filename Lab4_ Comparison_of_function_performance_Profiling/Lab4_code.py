@@ -28,7 +28,7 @@ def benchmark(func, n, repeat=1000):
 def main():
     # фиксированный набор данных
     random.seed(42)
-    test_data = list(range(10, 300, 5))
+    test_data = list(range(10, 400, 5))
 
     res_recursive = []
     res_iterative = []
@@ -48,4 +48,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
