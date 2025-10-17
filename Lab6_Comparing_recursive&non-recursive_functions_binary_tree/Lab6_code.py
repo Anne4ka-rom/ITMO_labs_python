@@ -99,6 +99,19 @@ def main():
         res_recursive.append(benchmark(function=build_tree_recursive, height=height, root=11)) # добавляем в список res_recursive результат выполнения функции benchmark: build_tree_recursive -- рекурсивная функция, height -- текущая высота, root -- корень дерева
         res_iterative.append(benchmark(function=build_tree_iterative, height=height, root=11)) # добавляем в список res_iterative результат выполнения функции benchmark: build_tree_iterative -- рекурсивная функция, height -- текущая высота, root -- корень дерева
 
+    '''БЛОК НА ДОП. БАЛЛЫ: ПОДСЧЁТ БЫСТРОТЫ ФУНКЦИЙ В %'''
+    if len(res_iterative) > 0 and len(res_recursive) > 0: # проверяем: длина списка res_iterative и res_recursive больше 0
+        average_recursive = sum(res_recursive) / len(res_recursive) # считаем среднеее время работы для рекурсивной функции: сумма элементов списка (sum(res_recursive)) разделить на длину списка (len(res_recursive))
+        average_iterative = sum(res_iterative) / len(res_iterative) # считаем среднеее время работы для нерекурсивной функции: сумма элементов списка (sum(res_iterative)) разделить на длину списка (len(res_iterative))
+
+        percentages = ((average_iterative - average_recursive) / average_iterative) * 100 # на сколько процентов рекурсивня функция быстрее нерекурсивной
+        faster = average_iterative / average_recursive # во сколько раз рекурсивня функция быстрее нерекурсивной
+
+        print(f"Время выполнения рекурсивной функции: {average_recursive:.4f} сек") # выводим результат времени выполнения рекурсивной функции с точностью 4 знака после запятой
+        print(f"Время выполнения нерекурсивной функции: {average_iterative:.4f} сек") # выводим результат времени выполнения нерекурсивной функции с точностью 4 знака после запятой
+        print(f"Рекурсивная функция быстрее на: {percentages:.1f}%") # выводим на сколько рекурсивная функция быстрее нерекурсивной в процентах
+        print(f"Рекурсивная функция быстрее в: {faster:.1f} раз") # выводим на сколько рекурсивная функция быстрее нерекурсивной в долях
+        
     plt.plot(test_height, res_recursive, label="Рекурсивный") # создаём график для рекурсивной версии: test_height -- значения по оси X (высот деревьев),res_recursive -- значения по оси Y (время выполнения функции в секундах), label="Рекурсивный" -- подпись графика
     plt.plot(test_height, res_iterative, label="Нерекурсивный") # создаём график для нерекурсивной версии: test_height -- значения по оси X (высот деревьев),res_iterative -- значения по оси Y (время выполнения функции в секундах), label="Нерекурсивный" -- подпись графика
     plt.xlabel("Высота дерева") # подпись оси X
@@ -106,6 +119,7 @@ def main():
     plt.title("Сравнение рекурсивной и нерекурсивной функции построения бинарного дерева") # заголовок графика
     plt.legend() # добавление легенды на график (показывает какой график каким цветом обозначен)
     plt.show() # отображение графика в отдельном окне
+
 
 if __name__ == "__main__": # вызов функции main
     main()
