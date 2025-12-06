@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ myapp.name }} - Пользователи</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .nav { margin: 20px 0; }
+        .nav a { margin-right: 15px; text-decoration: none; color: #0066cc; }
+        .nav a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        tr:hover { background-color: #f5f5f5; }
+        .details-link { color: #4CAF50; }
+    </style>
+</head>
+<body>
+    <h1>{{ myapp.name }}</h1>
+    
+    <div class="nav">
+        <a href="/">Главная</a>
+        <a href="/users">Пользователи</a>
+        <a href="/currencies">Курсы валют</a>
+        <a href="/author">Об авторе</a>
+    </div>
+    
+    <h2>Список пользователей ({{ users|length }})</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Количество подписок</th>
+                <th>Подробная информация</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>
+                    {# Используем jinja2 для подсчета подписок #}
+                    {% set count = namespace(value=0) %}
+                    {% for sub in user_currencies %}
+                        {% if sub.user_id == user.id %}
+                            {% set count.value = count.value + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {{ count.value }}
+                </td>
+                <td>
+                    <a href="/user?id={{ user.id }}" class="details-link">Подробнее...</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div style="margin-top: 30px;">
+        <a href="/">Вернуться на главную</a>
+    </div>
+</body>
+</html>

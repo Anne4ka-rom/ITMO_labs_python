@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ myapp.name }} - Главная</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .stats { background: #f5f5f5; padding: 20px; border-radius: 10px; }
+        .nav { margin: 20px 0; }
+        .nav a { margin-right: 15px; text-decoration: none; color: #0066cc; }
+        .nav a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>{{ myapp.name }} v{{ myapp.version }}</h1>
+    <p>Добро пожаловать в веб-приложение для отслеживания курсов валют!</p>
+    
+    <div class="nav">
+        <a href="/">Главная</a>
+        <a href="/users">Пользователи</a>
+        <a href="/currencies">Курсы валют</a>
+        <a href="/author">Об авторе</a>
+    </div>
+    
+    <div class="stats">
+        <h2>Статистика приложения:</h2>
+        <ul>
+            <li><strong>Пользователей:</strong> {{ stats.total_users }}</li>
+            <li><strong>Валют в системе:</strong> {{ stats.total_currencies }}</li>
+        </ul>
+    </div>
+    
+    <h2>Быстрые ссылки:</h2>
+    <ul>
+        <li><a href="/users">Посмотреть всех пользователей</a></li>
+        <li><a href="/currencies">Текущие курсы валют</a></li>
+    </ul>
+    
+    <footer>
+        <p>Автор: {{ author.name }} ({{ author.group }})</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ myapp.name }} - Об авторе</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .nav { margin: 20px 0; }
+        .nav a { margin-right: 15px; text-decoration: none; color: #0066cc; }
+        .nav a:hover { text-decoration: underline; }
+        .author-card { 
+            background: #f9f9f9; padding: 30px; border-radius: 15px;
+            max-width: 600px; margin: 20px 0;
+        }
+        .app-info { background: #e8f4f8; padding: 20px; border-radius: 10px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>{{ myapp.name }}</h1>
+    
+    <div class="nav">
+        <a href="/">Главная</a>
+        <a href="/users">Пользователи</a>
+        <a href="/currencies">Курсы валют</a>
+        <a href="/author">Об авторе</a>
+    </div>
+    
+    <div class="author-card">
+        <h2>Об авторе:</h2>
+        <p><strong>Имя:</strong> {{ author.name }}</p>
+        <p><strong>Группа:</strong> {{ author.group }}</p>
+        
+        <div class="app-info">
+            <h3>О приложении:</h3>
+            <p><strong>Название:</strong> {{ myapp.name }}</p>
+            <p><strong>Версия:</strong> {{ myapp.version }}</p>
+            <p><em>Веб-приложение для отслеживания курсов валют с подписками пользователей.</em></p>
+        </div>
+    </div>
+    
+    <div style="margin-top: 30px;">
+        <a href="/">Вернуться на главную</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ myapp.name }} - {{ user.name }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .nav { margin: 20px 0; }
+        .nav a { margin-right: 15px; text-decoration: none; color: #0066cc; }
+        .nav a:hover { text-decoration: underline; }
+        .user-card { 
+            background: #f9f9f9; padding: 30px; border-radius: 15px;
+            max-width: 800px; margin: 20px 0;
+        }
+        .currency-list { 
+            margin-top: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+        .currency-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .currency-item:last-child {
+            border-bottom: none;
+        }
+        .back-link { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>{{ myapp.name }}</h1>
+    
+    <div class="nav">
+        <a href="/">Главная</a>
+        <a href="/users">Все пользователи</a>
+        <a href="/currencies">Курсы валют</a>
+        <a href="/author">Об авторе</a>
+    </div>
+    
+    <div class="user-card">
+        <h2>Профиль пользователя</h2>
+        
+        <h3>Основная информация:</h3>
+        <p><strong>ID:</strong> {{ user.id }}</p>
+        <p><strong>Имя:</strong> {{ user.name }}</p>
+        
+        <h3>Подписки на валюты ({{ subscribed_currencies|length }}):</h3>
+        
+        {% if subscribed_currencies %}
+            <div class="currency-list">
+                {% for currency in subscribed_currencies %}
+                <div class="currency-item">
+                    <strong>{{ currency.char_code }}</strong> - {{ currency.name }}
+                    <br>
+                    <small>
+                        Курс: <strong>{{ currency.value }} руб.</strong> 
+                        (номинал: {{ currency.nominal }})
+                        <br>
+                    </small>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>У пользователя нет подписок на валюты.</p>
+        {% endif %}
+        
+        <div class="back-link">
+            <a href="/users">Вернуться к списку пользователей</a>
+        </div>
+    </div>
+</body>
+</html>
