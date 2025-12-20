@@ -1,46 +1,105 @@
 class UserCurrency:
+    '''
+    Класс UserCurrency представляет связь пользователя с валютой
+    Инкапсулирует данные о предпочтениях пользователя по валютам
+    '''
     def __init__(self, id: int, user_id: int, currency_name: str):
-        self._id = None
-        self._user_id = None
-        self._currency_name = None
+        '''
+        Функция __init__() инициализирует новый экземпляр класса UserCurrency
         
-        self.id = id
-        self.user_id = user_id
-        self.currency_name = currency_name
+        Параметры:
+        id -- уникальный идентификатор записи
+        user_id -- идентификатор пользователя
+        currency_name -- название валюты (символьный код)
+        
+        Вызывает:
+        TypeError -- если id или user_id не целые числа
+        ValueError -- если id или user_id не положительные числа
+        TypeError -- если currency_name не строка
+        '''
+        self._id = None # создаём защищённый атрибут для уникального идентификатора записи со значением None
+        self._user_id = None # создаём защищённый атрибут для идентификатора пользователя со значением None
+        self._currency_name = None # создаём защищённый атрибут для названия валюты со значением None
+        
+        self.id = id # устанавливаем публичное свойство id через сеттер
+        self.user_id = user_id # устанавливаем публичное свойство user_id через сеттер
+        self.currency_name = currency_name # устанавливаем публичное свойство currency_name через сеттер
     
-    @property
+    @property # декоратор для создания свойства
     def id(self) -> int:
-        return self._id
+        '''
+        Функция id() возвращает уникальный идентификатор записи в виде целого числа
+        '''
+        return self._id # возвращаем значение защищённого атрибута _id
     
-    @id.setter
+    @id.setter # декоратор, преобразующий метод id() в сеттер для свойства id
     def id(self, value: int):
-        if not isinstance(value, int):
-            raise TypeError("ID должен быть целым числом")
-        if value <= 0:
-            raise ValueError("ID должен быть положительным числом")
-        self._id = value
+        '''
+        Функция id() устанавливает уникальный идентификатор записи с валидацией
+        
+        Параметры:
+        value -- новый уникальный идентификатор записи
+        
+        Вызывает:
+        TypeError -- если значение не является целым числом
+        ValueError -- если значение не является положительным числом
+        '''
+        if not isinstance(value, int): # проверяем, является ли значение чем-то кроме целого числа
+            raise TypeError("ID должен быть целым числом") # вызываем исключение TypeError для неверного типа
+        if value <= 0: # проверяем, является ли значение неположительным числом
+            raise ValueError("ID должен быть положительным числом") # вызываем исключение ValueError для неположительного числа
+        self._id = value # сохраняем значение в защищённый атрибут _id
     
-    @property
+    @property # декоратор для создания свойства
     def user_id(self) -> int:
-        return self._user_id
+        '''
+        Функция user_id() возвращает идентификатор пользователя в виде целого числа
+        '''
+        return self._user_id # возвращаем значение защищённого атрибута _user_id
     
-    @user_id.setter
+    @user_id.setter # декоратор, преобразующий метод user_id() в сеттер для свойства user_id
     def user_id(self, value: int):
-        if not isinstance(value, int):
-            raise TypeError("ID пользователя должен быть целым числом")
-        if value <= 0:
-            raise ValueError("ID пользователя должен быть положительным числом")
-        self._user_id = value
+        '''
+        Функция user_id() устанавливает идентификатор пользователя с валидацией
+        
+        Параметры:
+        value -- новый идентификатор пользователя
+        
+        Вызывает:
+        TypeError -- если значение не является целым числом
+        ValueError -- если значение не является положительным числом
+        '''
+        if not isinstance(value, int): # проверяем, является ли значение чем-то кроме целого числа
+            raise TypeError("ID пользователя должен быть целым числом") # вызываем исключение TypeError для неверного типа
+        if value <= 0: # проверяем, является ли значение неположительным числом
+            raise ValueError("ID пользователя должен быть положительным числом") # вызываем исключение ValueError для неположительного числа
+        self._user_id = value # сохраняем значение в защищённый атрибут _user_id
     
-    @property
+    @property # декоратор для создания свойства
     def currency_name(self) -> str:
-        return self._currency_name
+        '''
+        Функция currency_name() возвращает название валюты (символьный код) в строковом виде
+        '''
+        return self._currency_name # возвращаем значение защищённого атрибута _currency_name
     
-    @currency_name.setter
+    @currency_name.setter # декоратор, преобразующий метод currency_name() в сеттер для свойства currency_name
+
     def currency_name(self, value: str):
-        if not isinstance(value, str):
-            raise TypeError("ID валюты должен быть строкой")
-        self._currency_name = value
+        '''
+        Функция currency_name() возвращает устанавливает название валюты с валидацией
+        
+        Параметры:
+        value -- новое название валюты
+        
+        Вызывает:
+        TypeError -- если значение не является строкой
+        '''
+        if not isinstance(value, str): # проверяем, является ли значение чем-то кроме строки
+            raise TypeError("ID валюты должен быть строкой") # вызываем исключение TypeError для неверного типа
+        self._currency_name = value # сохраняем значение в защищённый атрибут _currency_name
     
     def __repr__(self):
-        return f"UserCurrency(id={self.id}, user_id={self.user_id}, currency_name='{self.currency_name}')"
+        '''
+        Функция __repr__() возвращает строковое представление объекта для отладки
+        '''
+        return f"UserCurrency(id={self.id}, user_id={self.user_id}, currency_name='{self.currency_name}')" # возвращаем форматированную строку с информацией об объекте
