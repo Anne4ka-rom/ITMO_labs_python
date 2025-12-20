@@ -1,233 +1,264 @@
-/* static/style.css */
+/* Создаём стили для тела документа */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f5f7fa;
-    color: #333;
-    line-height: 1.6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* устанавливаем шрифты */
+    margin: 0; /* убираем внешние отступы */
+    padding: 20px; /* устанавливаем внутренние отступы в 20 пикселей */
+    background-color: #f5f7fa; /* задаём цвет фона */
+    color: #333; /* устанавливаем цвет текста */
+    line-height: 1.6; /* устанавливаем межстрочный интервал для улучшения читаемости */
 }
 
+/* Создаём контейнер для основного содержимого страницы */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 1200px; /* ограничиваем максимальную ширину контейнера */
+    margin: 0 auto; /* центрируем контейнер по горизонтали */
+    background: white; /* устанавливаем белый цвет фона */
+    padding: 30px; /* добавляем внутренние отступы */
+    border-radius: 10px; /* скругляем углы контейнера */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* добавляем тень для эффекта глубины */
 }
 
+/* Задаём стили для заголовка первого уровня */
 h1 {
-    color: #2c3e50;
-    border-bottom: 3px solid #3498db;
-    padding-bottom: 10px;
-    margin-bottom: 25px;
+    color: #2c3e50; /* устанавливаем тёмно-синий цвет текста */
+    border-bottom: 3px solid #3498db; /* добавляем синюю линию под текстом */
+    padding-bottom: 10px; /* создаём отступ снизу для отделения от линии */
+    margin-bottom: 25px; /* создаём отступ снизу для отделения от следующего элемента */
 }
 
+/* Задаём стили для заголовка второго уровня */
 h2 {
-    color: #34495e;
-    margin-top: 30px;
-    margin-bottom: 15px;
+    color: #34495e; /* устанавливаем цвет текста */
+    margin-top: 30px; /* создаём отступ сверху для визуального разделения секций */
+    margin-bottom: 15px; /* создаём отступ снизу для отделения от содержимого */
 }
 
+/* Создаём стили для заголовка третьего уровня */
 h3 {
-    color: #2c3e50;
-    margin-top: 20px;
+    color: #2c3e50; /* устанавливаем цвет текста */
+    margin-top: 20px; /* делаем отступ сверху для визуального разделения */
 }
 
+/* Задаём стили для навигационной панели */
 .navigation {
-    background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
-    padding: 15px 30px;
-    border-radius: 8px;
-    margin-bottom: 30px;
-    display: flex;
-    gap: 15px;
-    list-style: none;
-    flex-wrap: wrap;
+    background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%); /* задаём градиентный фон */
+    padding: 15px 30px; /* делаем внутренние отступы сверху/снизу и слева/справа */
+    border-radius: 8px; /* скругляем углы */
+    margin-bottom: 30px; /* создаём отступ снизу для отделения от контента */
+    display: flex; /* используем flexbox для размещения элементов */
+    gap: 15px; /* задаём расстояние между элементами навигации */
+    list-style: none; /* убираем стандартные маркеры списка */
+    flex-wrap: wrap; /* разрешаем перенос элементов на новую строку */
 }
 
+/* Задаём стили для элементов списка навигации */
 .navigation li {
-    margin: 0;
+    margin: 0; /* убираем стандартные отступы элементов списка */
 }
 
+/* Задаём стили для ссылок навигации */
 .navigation a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: all 0.3s;
-    background: rgba(255,255,255,0.1);
+    color: white; /* устанавливаем белый цвет текста */
+    text-decoration: none;  /* убираем подчёркивание ссылок */
+    padding: 10px 20px; /* создаём внутренние отступы для увеличения кликабельной области */
+    border-radius: 5px; /* скругляем углы ссылок */
+    transition: all 0.3s; /* делаем плавный переход для всех свойств */
+    background: rgba(255,255,255,0.1); /* задаём полупрозрачный белый фон */
 }
 
+/* Задаём стили для ссылок навигации при наведении */
 .navigation a:hover {
-    background: rgba(255,255,255,0.2);
-    transform: translateY(-2px);
+    background: rgba(255,255,255,0.2); /* увеличиваем непрозрачность фона */
+    transform: translateY(-2px); /* сдвигаем элемент вверх для эффекта поднятия */
 }
 
+/* Задаём стили для таблиц */
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    width: 100%; /* растягиваем таблицу на всю доступную ширину */
+    border-collapse: collapse; /* объединяем границы ячеек */
+    margin: 20px 0; /* задаём вертикальные отступы вокруг таблицы */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* делаем тень для таблицы */
 }
 
+/* Задаём стили для ячеек таблицы */
 th, td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 15px; /* задаём внутренние отступы в ячейках */
+    text-align: left; /* выравниваем текст по левому краю */
+    border-bottom: 1px solid #e0e0e0; /* добавляем нижнюю границу ячейкам */
 }
 
+/* Задаём стили для заголовочных ячеек таблицы */
 th {
-    background-color: #3498db;
-    color: white;
-    font-weight: 600;
+    background-color: #3498db; /* задаём синий фон для заголовков */
+    color: white; /* задаём белый цвет текста */
+    font-weight: 600; /* задаём полужирное начертание шрифта */
 }
 
+/* задаём стили для строк таблицы при наведении */
 tr:hover {
-    background-color: #f8f9fa;
+    background-color: #f8f9fa; /* задаём светло-серый фон при наведении на строку */
 }
 
+/* задаём базовые стили для кнопок */
 .btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #3498db;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-weight: 500;
+    display: inline-block; /* отображаем как блочно-строчный элемент */
+    padding: 10px 20px; /* задаём внутренние отступы для кнопки */
+    background: #3498db; /* задаём синий цвет фона */
+    color: white; /* задаём белый цвет текста */
+    text-decoration: none; /* убираем подчёркивание у ссылок-кнопок */
+    border-radius: 5px; /* скругляем углы кнопки */
+    border: none; /* убираем стандартную рамку */
+    cursor: pointer; /* изменяем курсор на указатель при наведении */
+    transition: all 0.3s; /* задаём плавный переход для всех свойств */
+    font-weight: 500; /* задаём среднюю насыщенность шрифта */
 }
 
+/* Задаём стили для кнопок при наведении */
 .btn:hover {
-    background: #2980b9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background: #2980b9; /* задаём темно-синий цвет фона при наведении */
+    transform: translateY(-2px); /* сдвигаем кнопку вверх */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* добавляем тень для эффекта поднятия */
 }
 
+/* Создаём контейнер для статистических карточек */
 .stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin: 30px 0;
+    display: grid; /* используем CSS Grid для раскладки */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* автоматически подбираем количество колонок */
+    gap: 20px; /* задаём расстояние между карточками */
+    margin: 30px 0; /* задаём вертикальные отступы */
 }
 
+/* Задаём стили для отдельных статистических карточек */
 .stat-card {
-    background: linear-gradient(135deg, #ecf0f1 0%, #dfe6e9 100%);
-    padding: 25px;
-    border-radius: 8px;
-    text-align: center;
-    transition: transform 0.3s;
-    border: 1px solid #ddd;
+    background: linear-gradient(135deg, #ecf0f1 0%, #dfe6e9 100%); /* градиентный светло-серый фон */
+    padding: 25px; /* внутренние отступы */
+    border-radius: 8px; /* скругляем углы */
+    text-align: center; /* центрируем содержимое */
+    transition: transform 0.3s; /* делаем плавный переход для трансформации */
+    border: 1px solid #ddd; /* добавляем светло-серую рамку */
 }
 
+/* Задаём стили для статистических карточек при наведении */
 .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transform: translateY(-5px); /* сдвигаем карточку вверх */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* добавляем тень для эффекта поднятия */
 }
 
+/* Задаём стили для числовых значений в статистических карточках */
 .stat-number {
-    font-size: 2.5em;
-    font-weight: bold;
-    color: #2c3e50;
-    margin: 10px 0;
+    font-size: 2.5em; /* увеличиваем размер шрифта */
+    font-weight: bold; /* задаём жирное начертание шрифта */
+    color: #2c3e50; /* задаём тёмно-синий цвет текста */
+    margin: 10px 0; /* задаём вертикальные отступы */
 }
 
+/* Задаём стили для заголовков в статистических карточках */
 .stat-card h3 {
-    margin-top: 0;
-    color: #34495e;
+    margin-top: 0; /* убираем отступ сверху */
+    color: #34495e; /* задаём сине-серый цвет текста */
 }
 
+/* Задаём стили для карточек валют */
 .currency-card {
-    background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 20px;
-    margin: 10px 0;
-    transition: all 0.3s;
+    background: white; /* задаём белый фон */
+    border: 1px solid #e0e0e0; /* задаём светло-серая рамка */
+    border-radius: 8px; /* скругляем углы */
+    padding: 20px; /* задаём внутренние отступы */
+    margin: 10px 0; /* задаём вертикальные отступы */
+    transition: all 0.3s; /* задаём плавный переход для всех свойств */
 }
 
+/* Задаём стили для карточек валют при наведении */
 .currency-card:hover {
-    border-color: #3498db;
-    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
+    border-color: #3498db; /* изменяем цвет рамки на синий */
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2); /* добавляем синеватую тень */
 }
 
+/* Создаём контейнер для сетки карточек валют */
 .currencies-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin: 20px 0;
+    display: grid; /* используем CSS Grid для раскладки */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* автоматически подбираем количество колонок */
+    gap: 20px; /* задаём расстояние между карточками */
+    margin: 20px 0; /* задаём вертикальные отступы */
 }
 
+/* Задаём стили для блока информации о пользователе */
 .user-info {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    margin: 20px 0;
-    border-left: 4px solid #3498db;
+    background: #f8f9fa; /* задаём светло-серый фон */
+    padding: 20px; /* задаём внутренние отступы */
+    border-radius: 8px; /* скругляем углы */
+    margin: 20px 0; /* задаём вертикальные отступы */
+    border-left: 4px solid #3498db; /* задаём синюю акцентную линию слева */
 }
 
+/* Задаём стили для карточки автора */
 .author-card {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    padding: 30px;
-    border-radius: 8px;
-    margin: 20px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); /* задаём градиентный светло-серый фон */
+    padding: 30px; /* задаём внутренние отступы */
+    border-radius: 8px; /* скругляем углы */
+    margin: 20px 0; /* задаём вертикальные отступы */
 }
 
+/* Задаём стили для подвала страницы */
 footer {
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid #e0e0e0;
-    color: #7f8c8d;
-    text-align: center;
-    font-size: 0.9em;
+    margin-top: 40px; /* задаём отступ сверху для отделения от основного контента */
+    padding-top: 20px; /* задаём внутренний отступ сверху */
+    border-top: 1px solid #e0e0e0; /* задаём серую разделительную линию */
+    color: #7f8c8d; /* задаём серый цвет текста */
+    text-align: center; /* центрируем текст */
+    font-size: 0.9em; /* уменьшаем размер шрифта */
 }
 
+/* Задаём стили для подзаголовков */
 .subtitle {
-    color: #7f8c8d;
-    font-size: 1.1em;
-    margin-bottom: 30px;
+    color: #7f8c8d; /* задаём серый цвет текста */
+    font-size: 1.1em; /* немного увеличиваем размер шрифта */
+    margin-bottom: 30px; /* задаём отступ снизу */
 }
 
+/* Задаём стили для маркированных списков */
 ul {
-    padding-left: 20px;
+    padding-left: 20px; /* задаём отступ слева для маркеров списка */
 }
 
+/* Задаём стили для элементов маркированных списков */
 ul li {
-    margin: 8px 0;
+    margin: 8px 0; /* задаём вертикальные отступы между элементами списка */
 }
 
+/* Задаём базовые стили для ссылок вне навигации */
 a {
-    color: #3498db;
-    text-decoration: none;
+    color: #3498db; /* задаём синий цвет ссылок */
+    text-decoration: none; /* убираем стандартное подчёркивание */
 }
 
+/* Задаём стили для ссылок при наведении */
 a:hover {
-    text-decoration: underline;
+    text-decoration: underline; /* добавляем подчёркивание при наведении */
 }
 
-/* Адаптивность */
+/* Секция медиа-запросов для адаптивного дизайна */
 @media (max-width: 768px) {
+    /* Задаём адаптивные стили для экранов шириной до 768 пикселей */
     .container {
-        padding: 15px;
+        padding: 15px; /* уменьшаем внутренние отступы на мобильных устройствах */
     }
     
     .navigation {
-        flex-direction: column;
-        gap: 10px;
+        flex-direction: column; /* располагаем элементы навигации вертикально */
+        gap: 10px; /* уменьшаем расстояние между элементами */
     }
     
     .stats {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* располагаем карточки валют в один столбец */
     }
     
     .currencies-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* располагаем карточки валют в один столбец */
     }
     
     table {
-        display: block;
-        overflow-x: auto;
+        display: block; /* меняем отображение таблицы на блочное */
+        overflow-x: auto; /* добавляем горизонтальную прокрутку при необходимости */
     }
 }
