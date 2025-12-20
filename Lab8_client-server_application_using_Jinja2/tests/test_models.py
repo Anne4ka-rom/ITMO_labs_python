@@ -1,188 +1,581 @@
-import unittest
-import sys
-import os
+import unittest # импортируем unittest для создания и запуска юнит-тестов
+import sys # импортируем sys для работы с системными путями и управлением системными параметрами
+import os # импортируем os для работы с операционной системой и файловыми путями
 
-# Добавляем путь к проекту для импорта
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))) # добавляем родительскую папку текущего файла в системный путь Python, чтобы можно было импортировать модули проекта
 
-from models import Author, App, User, Currency, UserCurrency
+from models import Author, App, User, Currency, UserCurrency # импортируем модели данных из модуля models: Author (автор), App (приложение), User (пользователь), Currency (валюта), UserCurrency (связь пользователь-валюта)
 
 
 class TestAuthor(unittest.TestCase):
-    """Тесты для модели Author"""
+    '''
+    Тесты для модели Author
+    '''
     
     def setUp(self):
-        self.author = Author(name="Иван Иванов", group="P3120")
+        '''
+        Функция setUp() выполняется перед каждым тестом в классе TestAuthor
+        Служит для подготовки тестовых данных и инициализации объектов, необходимых для тестирования
+        '''
+        self.author = Author(name="Иван Иванов", group="M9182") # создаём экземпляр класса Author с тестовыми данными: имя "Иван Иванов", группа "M9182"
     
     def test_initialization(self):
-        self.assertEqual(self.author.name, "Иван Иванов")
-        self.assertEqual(self.author.group, "P3120")
+        '''
+        Тестирование корректности инициализации объекта Author
+        Проверяет, что все атрибуты объекта устанавливаются правильно при создании
+        '''
+        self.assertEqual(self.author.name, "Иван Иванов") # проверяем, что имя автора соответствует ожидаемому значению "Иван Иванов"
+        self.assertEqual(self.author.group, "M9182") # проверяем, что группа автора соответствует ожидаемому значению "M9182"
     
     def test_name_setter_valid(self):
-        self.author.name = "Петр Петров"
-        self.assertEqual(self.author.name, "Петр Петров")
+        '''
+        Тестирование установки корректного значения имени автора
+        Проверяет, что сеттер name правильно обрабатывает валидные строковые значения
+        '''
+        self.author.name = "Петр Петров" # устанавливаем новое имя автора "Петр Петров"
+        self.assertEqual(self.author.name, "Петр Петров") # проверяем, что имя автора успешно изменилось на новое значение
     
     def test_name_setter_invalid_type(self):
-        with self.assertRaises(TypeError):
-            self.author.name = 123
+        '''
+        Тестирование установки имени автора некорректного типа
+        Проверяет, что сеттер name вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.author.name = 123 # пытаемся установить имя автора как число, что должно вызвать TypeError
     
     def test_name_setter_empty(self):
-        with self.assertRaises(ValueError):
-            self.author.name = ""
+        '''
+        Тестирование установки пустого имени автора
+        Проверяет, что сеттер name вызывает ValueError при попытке установить пустую строку
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.author.name = "" # пытаемся установить пустое имя автора, что должно вызвать ValueError
+    
+    def test_name_setter_whitespace_only(self):
+        '''
+        Тестирование установки имени автора, состоящего только из пробелов
+        Проверяет, что сеттер name вызывает ValueError при попытке установить строку, содержащую только пробелы
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.author.name = "   " # пытаемся установить имя автора, состоящее только из пробелов, что должно вызвать ValueError
     
     def test_group_setter_valid(self):
-        self.author.group = "P3121"
-        self.assertEqual(self.author.group, "P3121")
+        '''
+        Тестирование установки корректного значения группы автора
+        Проверяет, что сеттер group правильно обрабатывает валидные строковые значения
+        '''
+        self.author.group = "G48" # устанавливаем новую группу автора "G48"
+        self.assertEqual(self.author.group, "G48") # проверяем, что группа автора успешно изменилась на новое значение
+    
+    def test_group_setter_invalid_type(self): # объявляем метод тестирования установки неверного типа группы автора
+        '''
+        Тестирование установки группы автора некорректного типа
+        Проверяет, что сеттер group вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.author.group = 56 # пытаемся установить группу автора как число, что должно вызвать TypeError
+    
+    def test_group_setter_empty(self):
+        '''
+        Тестирование установки пустой группы автора
+        Проверяет, что сеттер group вызывает ValueError при попытке установить пустую строку
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.author.group = "" # пытаемся установить пустую группу автора, что должно вызвать ValueError
+    
+    def test_group_setter_whitespace_only(self):
+        '''
+        Тестирование установки группы автора, состоящей только из пробелов
+        Проверяет, что сеттер group вызывает ValueError при попытке установить строку, содержащую только пробелы
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.author.group = "   " # пытаемся установить группу автора, состоящую только из пробелов, что должно вызвать ValueError
     
     def test_repr(self):
-        self.assertIn("Author", repr(self.author))
-        self.assertIn("Иван Иванов", repr(self.author))
+        '''
+        Тестирование строкового представления объекта Author
+        Проверяет, что метод __repr__ возвращает информативную строку с данными объекта
+        '''
+        repr_str = repr(self.author) # получаем строковое представление объекта author
+        self.assertIn("Author", repr_str) # проверяем, что строковое представление содержит название класса -- "Author"
+        self.assertIn("Иван Иванов", repr_str) # проверяем, что строковое представление содержит имя автора  --"Иван Иванов"
+        self.assertIn("M9182", repr_str) # проверяем, что строковое представление содержит группу автора -- "M9182"
 
 
 class TestApp(unittest.TestCase):
-    """Тесты для модели App"""
+    '''
+    Тесты для модели App
+    '''
     
     def setUp(self):
-        self.author = Author(name="Иван Иванов", group="P3120")
-        self.app = App(name="Валютка", version="1.0.0", author=self.author)
+        '''
+        Функция setUp() выполняется перед каждым тестом в классе TestApp
+        Инициализирует объекты Author и App для тестирования модели приложения
+        '''
+        self.author = Author(name="Иван Иванов", group="M9182") # создаём экземпляр класса Author для использования в тестах модели App
+        self.app = App(name="Валюты Центробанка", version="1.0.0", author=self.author) # создаём экземпляр класса App с тестовыми данными: название "Валюты Центробанка", версия "1.0.0", автор - созданный выше объект
     
     def test_initialization(self):
-        self.assertEqual(self.app.name, "Валютка")
-        self.assertEqual(self.app.version, "1.0.0")
-        self.assertEqual(self.app.author, self.author)
+        '''
+        Тестирование корректности инициализации объекта App
+        Проверяет, что все атрибуты объекта устанавливаются правильно при создании
+        '''
+        self.assertEqual(self.app.name, "Валюты Центробанка") # проверяем, что название приложения соответствует ожидаемому значению "Валюты Центробанка"
+        self.assertEqual(self.app.version, "1.0.0") # проверяем, что версия приложения соответствует ожидаемому значению "1.0.0"
+        self.assertEqual(self.app.author, self.author) # проверяем, что автор приложения соответствует созданному объекту author
     
-    def test_name_setter_invalid(self):
-        with self.assertRaises(TypeError):
-            self.app.name = 123
-        
-        with self.assertRaises(ValueError):
-            self.app.name = ""
+    def test_name_setter_valid(self):
+        '''
+        Тестирование установки корректного названия приложения
+        Проверяет, что сеттер name правильно обрабатывает валидные строковые значения
+        '''
+        self.app.name = "Новые валюты ЦБ" # устанавливаем новое название приложения "Новые валюты ЦБ"
+        self.assertEqual(self.app.name, "Новые валюты ЦБ") # проверяем, что название приложения успешно изменилось на новое значение
     
-    def test_version_setter_invalid(self):
-        with self.assertRaises(TypeError):
-            self.app.version = 123
-        
-        with self.assertRaises(ValueError):
-            self.app.version = ""
+    def test_name_setter_invalid_type(self):
+        '''
+        Тестирование установки названия приложения некорректного типа
+        Проверяет, что сеттер name вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.app.name = 89 # пытаемся установить название приложения как число, что должно вызвать TypeError
+    
+    def test_name_setter_empty(self):
+        '''
+        Тестирование установки пустого названия приложения
+        Проверяет, что сеттер name вызывает ValueError при попытке установить пустую строку
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.app.name = "" # пытаемся установить пустое название приложения, что должно вызвать ValueError
+    
+    def test_name_setter_whitespace_only(self):
+        '''
+        Тестирование установки названия приложения, состоящего только из пробелов
+        Проверяет, что сеттер name вызывает ValueError при попытке установить строку, содержащую только пробелы
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.app.name = "   " # пытаемся установить название приложения, состоящее только из пробелов, что должно вызвать ValueError
+    
+    def test_version_setter_valid(self):
+        '''
+        Тестирование установки корректной версии приложения
+        Проверяет, что сеттер version правильно обрабатывает валидные строковые значения
+        '''
+        self.app.version = "2.5.66" # устанавливаем новую версию приложения "2.5.66"
+        self.assertEqual(self.app.version, "2.5.66") # проверяем, что версия приложения успешно изменилась на новое значение
+    
+    def test_version_setter_invalid_type(self):
+        '''
+        Тестирование установки версии приложения некорректного типа
+        Проверяет, что сеттер version вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.app.version = 4 # пытаемся установить версию приложения как число, что должно вызвать TypeError
+    
+    def test_version_setter_empty(self):
+        '''
+        Тестирование установки пустой версии приложения
+        Проверяет, что сеттер version вызывает ValueError при попытке установить пустую строку
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.app.version = "" # пытаемся установить пустую версию приложения, что должно вызвать ValueError
+    
+    def test_version_setter_whitespace_only(self):
+        '''
+        Тестирование установки версии приложения, состоящей только из пробелов
+        Проверяет, что сеттер version вызывает ValueError при попытке установить строку, содержащую только пробелы
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.app.version = "   " # пытаемся установить версию приложения, состоящую только из пробелов, что должно вызвать ValueError
+    
+    def test_author_setter_valid(self):
+        '''
+        Тестирование установки корректного автора приложения
+        Проверяет, что сеттер author правильно обрабатывает валидные объекты класса Author
+        '''
+        new_author = Author(name="Петр Петров", group="G48") # создаём новый объект Author для тестирования
+        self.app.author = new_author # устанавливаем нового автора приложения
+        self.assertEqual(self.app.author, new_author) # проверяем, что автор приложения успешно изменился на новый объект
     
     def test_author_setter_invalid(self):
-        with self.assertRaises(TypeError):
-            self.app.author = "Не автор"
+        '''
+        Тестирование установки некорректного автора приложения
+        Проверяет, что сеттер author вызывает TypeError при попытке установить не объект класса Author
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.app.author = "Автор" # пытаемся установить автора как строку вместо объекта Author, что должно вызвать TypeError
     
     def test_repr(self):
-        self.assertIn("App", repr(self.app))
-        self.assertIn("Валютка", repr(self.app))
+        '''
+        Тестирование строкового представления объекта App
+        Проверяет, что метод __repr__ возвращает информативную строку с данными объекта
+        '''
+        repr_str = repr(self.app) # получаем строковое представление объекта app
+        self.assertIn("App", repr_str) # проверяем, что строковое представление содержит название класса -- "App"
+        self.assertIn("Валюты Центробанка", repr_str) # проверяем, что строковое представление содержит название приложения -- "Валюты Центробанка"
+        self.assertIn("1.0.0", repr_str) # проверяем, что строковое представление содержит версию приложения -- "1.0.0"
+        self.assertIn("Author", repr_str) # проверяем, что строковое представление содержит информацию об авторе
 
 
 class TestUser(unittest.TestCase):
-    """Тесты для модели User"""
+    '''
+    Тесты для модели User
+    '''
     
     def setUp(self):
-        self.user = User(id=1, name="Алексей Петров")
+        '''
+        Функция setUp() выполняется перед каждым тестом в классе TestUser
+        Инициализирует тестовый объект пользователя с предопределенными значениями для обеспечения согласованности и изоляции тестов
+        '''
+        self.user = User(id=1, name="Борис Новченко") # создаём экземпляр класса User с тестовыми данными: идентификатор -- 1, имя -- "Борис Новченко"
     
     def test_initialization(self):
-        self.assertEqual(self.user.id, 1)
-        self.assertEqual(self.user.name, "Алексей Петров")
+        '''
+        Тестирование корректности инициализации объекта User
+        Проверяет, что все атрибуты объекта устанавливаются правильно при создании
+        '''
+        self.assertEqual(self.user.id, 1) # проверяем, что идентификатор пользователя соответствует ожидаемому значению -- 1
+        self.assertEqual(self.user.name, "Борис Новченко") # проверяем, что имя пользователя соответствует ожидаемому значению -- "Борис Новченко"
     
-    def test_id_setter_invalid(self):
-        with self.assertRaises(TypeError):
-            self.user.id = "не число"
-        
-        with self.assertRaises(ValueError):
-            self.user.id = -1
+    def test_id_setter_valid(self):
+        '''
+        Тестирование установки корректного идентификатора пользователя
+        Проверяет, что сеттер id правильно обрабатывает валидные целочисленные значения
+        '''
+        self.user.id = 2 # устанавливаем новый идентификатор пользователя -- 2
+        self.assertEqual(self.user.id, 2) # проверяем, что идентификатор пользователя успешно изменился на новое значение
     
-    def test_name_setter_invalid(self):
-        with self.assertRaises(TypeError):
-            self.user.name = 123
+    def test_id_setter_invalid_type(self):
+        '''
+        Тестирование установки идентификатора пользователя некорректного типа
+        Проверяет, что сеттер id вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.user.id = "dfgyhuyfvb" # пытаемся установить идентификатор пользователя как строку, что должно вызвать TypeError
+    
+    def test_id_setter_non_positive(self):
+        '''
+        Тестирование установки неположительного идентификатора пользователя
+        Проверяет, что сеттер id вызывает ValueError при попытке установить неположительное значение
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.user.id = 0 # пытаемся установить нулевой идентификатор пользователя, что должно вызвать ValueError
         
-        with self.assertRaises(ValueError):
-            self.user.name = ""
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.user.id = -198654 # пытаемся установить отрицательный идентификатор пользователя, что должно вызвать ValueError
+    
+    def test_name_setter_valid(self):
+        '''
+        Тестирование установки корректного имени пользователя
+        Проверяет, что сеттер name правильно обрабатывает валидные строковые значения
+        '''
+        self.user.name = "Иван Иванов" # устанавливаем новое имя пользователя "Иван Иванов"
+        self.assertEqual(self.user.name, "Иван Иванов") # проверяем, что имя пользователя успешно изменилось на новое значение
+    
+    def test_name_setter_invalid_type(self):
+        '''
+        Тестирование установки имени пользователя некорректного типа
+        Проверяет, что сеттер name вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.user.name = 123 # пытаемся установить имя пользователя как число, что должно вызвать TypeError
+    
+    def test_name_setter_empty(self):
+        '''
+        Тестирование установки пустого имени пользователя
+        Проверяет, что сеттер name вызывает ValueError при попытке установить пустую строку
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.user.name = "" # пытаемся установить пустое имя пользователя, что должно вызвать ValueError
+    
+    def test_name_setter_whitespace_only(self):
+        '''
+        Тестирование установки имени пользователя, состоящего только из пробелов
+        Проверяет, что сеттер name вызывает ValueError при попытке установить строку, содержащую только пробелы
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.user.name = "   " # пытаемся установить имя пользователя, состоящее только из пробелов, что должно вызвать ValueError
     
     def test_repr(self):
-        self.assertIn("User", repr(self.user))
-        self.assertIn("Алексей Петров", repr(self.user))
+        '''
+        Тестирование строкового представления объекта User
+        Проверяет, что метод __repr__ возвращает информативную строку с данными объекта
+        '''
+        repr_str = repr(self.user) # получаем строковое представление объекта user
+        self.assertIn("User", repr_str) # проверяем, что строковое представление содержит название класса -- "User"
+        self.assertIn("Борис Новченко", repr_str) # проверяем, что строковое представление содержит имя пользователя -- "Борис Новченко"
+        self.assertIn("1", repr_str) # проверяем, что строковое представление содержит идентификатор пользователя -- "1"
 
 
 class TestCurrency(unittest.TestCase):
-    """Тесты для модели Currency"""
+    '''
+    Тесты для модели Currency
+    '''
     
     def setUp(self):
-        self.currency = Currency(
-            id="R01235",
-            char_code="USD",
-            name="Доллар США",
-            value=75.5,
-            nominal=1
+        '''
+        Функция setUp() выполняется перед каждым тестом в классе TestCurrency
+        Создает тестовый объект валюты со всеми необходимыми атрибутами
+        '''
+        self.currency = Currency( # создаём экземпляр класса Currency с тестовыми данными
+            id="R01235", # идентификатор валюты
+            char_code="USD", # буквенный код валюты
+            name="Доллар США", # полное название валюты
+            value=75.5, # текущий курс к рублю
+            nominal=1, # номинал
+            num_code="840" # цифровой код валюты
         )
     
     def test_initialization(self):
-        self.assertEqual(self.currency.id, "R01235")
-        self.assertEqual(self.currency.char_code, "USD")
-        self.assertEqual(self.currency.name, "Доллар США")
-        self.assertEqual(self.currency.value, 75.5)
-        self.assertEqual(self.currency.nominal, 1)
+        '''
+        Тестирование корректности инициализации объекта Currency
+        Проверяет, что все атрибуты объекта устанавливаются правильно при создании
+        '''
+        self.assertEqual(self.currency.id, "R01235") # проверяем, что идентификатор валюты соответствует ожидаемому значению -- "R01235"
+        self.assertEqual(self.currency.char_code, "USD") # проверяем, что буквенный код валюты соответствует ожидаемому значению -- "USD"
+        self.assertEqual(self.currency.name, "Доллар США") # проверяем, что название валюты соответствует ожидаемому значению -- "Доллар США"
+        self.assertEqual(self.currency.value, 75.5) # проверяем, что курс валюты соответствует ожидаемому значению -- 75.5
+        self.assertEqual(self.currency.nominal, 1) # проверяем, что номинал валюты соответствует ожидаемому значению -- 1
+        self.assertEqual(self.currency.num_code, "840") # проверяем, что цифровой код валюты соответствует ожидаемому значению -- "840"
     
-    def test_value_setter_invalid(self):
-        with self.assertRaises(TypeError):
-            self.currency.value = "не число"
-        
-        with self.assertRaises(ValueError):
-            self.currency.value = -1
+    def test_id_setter_invalid_type(self):
+        '''
+        Тестирование установки идентификатора валюты некорректного типа
+        Проверяет, что сеттер id вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.currency.id = 123 # пытаемся установить идентификатор валюты как число, что должно вызвать TypeError
     
-    def test_nominal_setter_invalid(self):
-        with self.assertRaises(TypeError):
-            self.currency.nominal = "не число"
+    def test_num_code_setter_invalid_type(self):
+        '''
+        Тестирование установки цифрового кода валюты некорректного типа
+        Проверяет, что сеттер num_code вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.currency.num_code = 840 # пытаемся установить цифровой код валюты как число, что должно вызвать TypeError
+    
+    def test_num_code_setter_valid(self):
+        '''
+        Тестирование установки корректного цифрового кода валюты
+        Проверяет, что сеттер num_code правильно обрабатывает валидные строковые значения
+        '''
+        self.currency.num_code = "97658" # устанавливаем новый цифровой код валюты "97658"
+        self.assertEqual(self.currency.num_code, "97658") # проверяем, что цифровой код валюты успешно изменился на новое значение
+    
+    def test_char_code_setter_invalid_type(self):
+        '''
+        Тестирование установки буквенного кода валюты некорректного типа
+        Проверяет, что сеттер char_code вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.currency.char_code = 54445 # пытаемся установить буквенный код валюты как число, что должно вызвать TypeError
+    
+    def test_name_setter_invalid_type(self):
+        '''
+        Тестирование установки названия валюты некорректного типа
+        Проверяет, что сеттер name вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.currency.name = 76453 # пытаемся установить название валюты как число, что должно вызвать TypeError
+    
+    def test_value_setter_valid(self):
+        '''
+        Тестирование установки корректного значения курса валюты
+        Проверяет, что сеттер value правильно обрабатывает валидные числовые значения
+        '''
+        self.currency.value = 80.9 # устанавливаем новый курс валюты 80.9 рублей
+        self.assertEqual(self.currency.value, 80.9) # проверяем, что курс валюты успешно изменился на новое значение
+    
+    def test_value_setter_int(self):
+        '''
+        Тестирование установки целочисленного значения курса валюты
+        Проверяет, что сеттер value правильно обрабатывает целочисленные значения (преобразует их в float)
+        '''
+        self.currency.value = 104 # устанавливаем целочисленный курс валюты 104 рублей
+        self.assertEqual(self.currency.value, 104.0) # проверяем, что курс валюты преобразовался в float и равен 104.0
+    
+    def test_value_setter_invalid_type(self):
+        '''
+        Тестирование установки курса валюты некорректного типа
+        Проверяет, что сеттер value вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.currency.value = "fvbn" # пытаемся установить курс валюты как строку, что должно вызвать TypeError
+    
+    def test_value_setter_non_positive(self):
+        '''
+        Тестирование установки неположительного курса валюты
+        Проверяет, что сеттер value вызывает ValueError при попытке установить неположительное значение
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.currency.value = 0 # пытаемся установить нулевой курс валюты, что должно вызвать ValueError
         
-        with self.assertRaises(ValueError):
-            self.currency.nominal = 0
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.currency.value = -76543 # пытаемся установить отрицательный курс валюты, что должно вызвать ValueError
+    
+    def test_nominal_setter_valid(self):
+        '''
+        Тестирование установки корректного номинала валюты
+        Проверяет, что сеттер nominal правильно обрабатывает валидные целочисленные значения
+        '''
+        self.currency.nominal = 10 # устанавливаем новый номинал валюты 10
+        self.assertEqual(self.currency.nominal, 10) # проверяем, что номинал валюты успешно изменился на новое значение
+    
+    def test_nominal_setter_invalid_type(self):
+        '''
+        Тестирование установки номинала валюты некорректного типа
+        Проверяет, что сеттер nominal вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.currency.nominal = "gfeerr" # пытаемся установить номинал валюты как строку, что должно вызвать TypeError
+    
+    def test_nominal_setter_non_positive(self):
+        '''
+        Тестирование установки неположительного номинала валюты
+        Проверяет, что сеттер nominal вызывает ValueError при попытке установить неположительное значение
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.currency.nominal = 0 # пытаемся установить нулевой номинал валюты, что должно вызвать ValueError
+        
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.currency.nominal = -98765 # пытаемся установить отрицательный номинал валюты, что должно вызвать ValueError
     
     def test_get_value_per_unit(self):
-        self.currency.value = 100
-        self.currency.nominal = 2
-        self.assertEqual(self.currency.get_value_per_unit(), 50)
+        '''
+        Тестирование вычисления курса за одну единицу валюты
+        Проверяет, что метод get_value_per_unit корректно вычисляет курс за одну единицу при номинале больше 1
+        '''
+        self.currency.value = 100 # устанавливаем курс валюты 100 рублей
+        self.currency.nominal = 2 # устанавливаем номинал валюты 2
+        self.assertEqual(self.currency.get_value_per_unit(), 50) # проверяем, что курс за одну единицу равен 100 / 2 = 50
+    
+    def test_get_value_per_unit_with_decimals(self):
+        '''
+        Тестирование вычисления курса за одну единицу валюты с десятичными дробями
+        Проверяет, что метод get_value_per_unit корректно вычисляет курс при номинале 1 и дробном значении курса
+        '''
+        self.currency.value = 78.9 # устанавливаем дробный курс валюты 78.9 рублей
+        self.currency.nominal = 1 # устанавливаем номинал валюты 1
+        self.assertEqual(self.currency.get_value_per_unit(), 78.9) # проверяем, что курс за одну единицу равен 78.9 / 1 = 78.9
     
     def test_repr(self):
-        self.assertIn("Currency", repr(self.currency))
-        self.assertIn("USD", repr(self.currency))
+        '''
+        Тестирование строкового представления объекта Currency
+        Проверяет, что метод __repr__ возвращает информативную строку с данными объекта
+        '''
+        repr_str = repr(self.currency) # получаем строковое представление объекта currency
+        self.assertIn("Currency", repr_str) # проверяем, что строковое представление содержит название класса -- "Currency"
+        self.assertIn("USD", repr_str) # проверяем, что строковое представление содержит буквенный код валюты -- "USD"
+        self.assertIn("Доллар США", repr_str) # проверяем, что строковое представление содержит название валюты -- "Доллар США"
+        self.assertIn("75.5", repr_str) # проверяем, что строковое представление содержит курс валюты -- "75.5"
 
 
 class TestUserCurrency(unittest.TestCase):
-    """Тесты для модели UserCurrency"""
+    '''
+    Тесты для модели UserCurrency
+    '''
     
     def setUp(self):
-        self.user_currency = UserCurrency(
-            id=1,
-            user_id=2,
-            currency_name="USD"
+        '''
+        Функция setUp() выполняется перед каждым тестом в классе TestUserCurrency
+        Инициализирует тестовый объект связи пользователь-валюта для проверки функциональности модели UserCurrency, которая представляет подписку пользователя на отслеживание курса валюты
+        '''
+        self.user_currency = UserCurrency( # создаём экземпляр класса UserCurrency с тестовыми данными
+            id=1, # идентификатор связи пользователь-валюта
+            user_id=2, # идентификатор пользователя
+            currency_name="USD" # буквенный код валюты
         )
     
     def test_initialization(self):
-        self.assertEqual(self.user_currency.id, 1)
-        self.assertEqual(self.user_currency.user_id, 2)
-        self.assertEqual(self.user_currency.currency_name, "USD")
+        '''
+        Тестирование корректности инициализации объекта UserCurrency
+        Проверяет, что все атрибуты объекта устанавливаются правильно при создании
+        '''
+        self.assertEqual(self.user_currency.id, 1) # проверяем, что идентификатор связи соответствует ожидаемому значению -- 1
+        self.assertEqual(self.user_currency.user_id, 2) # проверяем, что идентификатор пользователя соответствует ожидаемому значению -- 2
+        self.assertEqual(self.user_currency.currency_name, "USD") # проверяем, что название валюты соответствует ожидаемому значению -- "USD"
     
-    def test_id_setter_invalid(self):
-        with self.assertRaises(TypeError):
-            self.user_currency.id = "не число"
+    def test_id_setter_valid(self):
+        '''
+        Тестирование установки корректного идентификатора связи
+        Проверяет, что сеттер id правильно обрабатывает валидные целочисленные значения
+        '''
+        self.user_currency.id = 3 # устанавливаем новый идентификатор связи 3
+        self.assertEqual(self.user_currency.id, 3) # проверяем, что идентификатор связи успешно изменился на новое значение
+    
+    def test_id_setter_invalid_type(self):
+        '''
+        Тестирование установки идентификатора связи некорректного типа
+        Проверяет, что сеттер id вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.user_currency.id = "sertl" # пытаемся установить идентификатор связи как строку, что должно вызвать TypeError
+    
+    def test_id_setter_non_positive(self):
+        '''
+        Тестирование установки неположительного идентификатора связи
+        Проверяет, что сеттер id вызывает ValueError при попытке установить неположительное значение
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.user_currency.id = 0 # пытаемся установить нулевой идентификатор связи, что должно вызвать ValueError
         
-        with self.assertRaises(ValueError):
-            self.user_currency.id = 0
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.user_currency.id = -45678 # пытаемся установить отрицательный идентификатор связи, что должно вызвать ValueError
     
-    def test_user_id_setter_invalid(self):
-        with self.assertRaises(TypeError):
-            self.user_currency.user_id = "не число"
+    def test_user_id_setter_valid(self):
+        '''
+        Тестирование установки корректного идентификатора пользователя
+        Проверяет, что сеттер user_id правильно обрабатывает валидные целочисленные значения
+        '''
+        self.user_currency.user_id = 50 # устанавливаем новый идентификатор пользователя 50
+        self.assertEqual(self.user_currency.user_id, 50) # проверяем, что идентификатор пользователя успешно изменился на новое значение
+    
+    def test_user_id_setter_invalid_type(self):
+        '''
+        Тестирование установки идентификатора пользователя некорректного типа
+        Проверяет, что сеттер user_id вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.user_currency.user_id = "iuygf" # пытаемся установить идентификатор пользователя как строку, что должно вызвать TypeError
+    
+    def test_user_id_setter_non_positive(self):
+        '''
+        Тестирование установки неположительного идентификатора пользователя
+        Проверяет, что сеттер user_id вызывает ValueError при попытке установить неположительное значение
+        '''
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.user_currency.user_id = 0 # пытаемся установить нулевой идентификатор пользователя, что должно вызвать ValueError
         
-        with self.assertRaises(ValueError):
-            self.user_currency.user_id = -1
+        with self.assertRaises(ValueError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение ValueError
+            self.user_currency.user_id = -458985 # пытаемся установить отрицательный идентификатор пользователя, что должно вызвать ValueError
     
-    def test_currency_name_setter_invalid(self):
-        with self.assertRaises(TypeError):
-            self.user_currency.currency_name = 123
+    def test_currency_name_setter_valid(self):
+        '''
+        Тестирование установки корректного названия валюты
+        Проверяет, что сеттер currency_name правильно обрабатывает валидные строковые значения
+        '''
+        self.user_currency.currency_name = "EUR" # устанавливаем новое название валюты "EUR"
+        self.assertEqual(self.user_currency.currency_name, "EUR") # проверяем, что название валюты успешно изменилось на новое значение
+    
+    def test_currency_name_setter_invalid_type(self):
+        '''
+        Тестирование установки названия валюты некорректного типа
+        Проверяет, что сеттер currency_name вызывает TypeError при попытке установить некорректное значение
+        '''
+        with self.assertRaises(TypeError): # проверяем, что при выполнении следующего блока кода будет вызвано исключение TypeError
+            self.user_currency.currency_name = 45678 # пытаемся установить название валюты как число, что должно вызвать TypeError
     
     def test_repr(self):
-        self.assertIn("UserCurrency", repr(self.user_currency))
-        self.assertIn("USD", repr(self.user_currency))
+        '''
+        Тестирование строкового представления объекта UserCurrency
+        Проверяет, что метод __repr__ возвращает информативную строку с данными объекта
+        '''
+        repr_str = repr(self.user_currency) # получаем строковое представление объекта user_currency
+        self.assertIn("UserCurrency", repr_str) # проверяем, что строковое представление содержит название класса -- "UserCurrency"
+        self.assertIn("USD", repr_str) # проверяем, что строковое представление содержит название валюты -- "USD"
+        self.assertIn("1", repr_str) # проверяем, что строковое представление содержит идентификатор связи -- "1"
+        self.assertIn("2", repr_str) # проверяем, что строковое представление содержит идентификатор пользователя -- "2"
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main() # запускаем все тесты
