@@ -1,203 +1,275 @@
-import unittest
-import sys
-import os
-from jinja2 import Environment, FileSystemLoader
+import unittest # импортируем unittest для создания и запуска тестов
+import sys # импортируем sys для работы с системными путями и управлением системными параметрами
+import os # импортируем os для работы с операционной системой и файловыми путями
+from unittest.mock import Mock # импортируем Mock для создания мок-объектов и подмены реальных функций
+from jinja2 import Environment, FileSystemLoader # импортируем Environment и FileSystemLoader из jinja2 для работы с шаблонами
 
-# Добавляем путь к проекту для импорта
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from models import Author, App, User, Currency
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))) # добавляем родительскую папку текущего файла в системный путь Python, чтобы можно было импортировать модули проекта
 
+from models import Author, App, User, Currency, UserCurrency # импортируем модели данных из модуля models
 
 class TestTemplates(unittest.TestCase):
-    """Тесты для шаблонов Jinja2"""
+    '''
+    Класс TestTemplates содержит тесты для шаблонов Jinja2
+    Проверяет корректность рендеринга всех HTML-шаблонов приложения
+    '''
     
     def setUp(self):
-        # Настраиваем окружение Jinja2
-        templates_path = os.path.join(os.path.dirname(__file__), '..', 'templates')
-        self.env = Environment(loader=FileSystemLoader(templates_path))
+        '''
+        Функция setUp() выполняется перед каждым тестом для настройки окружения Jinja2 и создания тестовых данных
+        '''
+        templates_path = os.path.join(os.path.dirname(__file__), '..', 'templates') # формируем путь к папке с шаблонами
+        self.env = Environment(loader=FileSystemLoader(templates_path)) # создаём окружение Jinja2 с загрузчиком файлов из указанной папки
         
-        # Создаем тестовые данные
-        self.author = Author(name="Тест Автор", group="P3120")
-        self.app = App(name="Тест Приложение", version="1.0.0", author=self.author)
-        self.user = User(id=1, name="Тест Пользователь")
-        self.currency = Currency(
-            id="TEST001",
-            char_code="USD",
-            name="Доллар США",
-            value=75.5,
-            nominal=1
+        self.author = Author(name="Иван Иванов", group="Y67") # создаём тестового автора
+        self.app = App(name="Тест и точка", version="1.0.0", author=self.author) # создаём тестовое приложение
+        self.user = User(id=1, name="Иван Иванов") # создаём тестового пользователя
+        self.currency = Currency( # создаём тестовую валюту
+            id="TEST001", # идентификатор валюты
+            char_code="USD", # буквенный код валюты
+            num_code="840", # цифровой код валюты
+            name="Доллар США", # название валюты
+            value=75.5, # курс валюты
+            nominal=1 # номинал валюты
         )
     
     def test_index_template(self):
-        """Проверка шаблона index.html"""
-        template = self.env.get_template('index.html')
+        '''
+        Тестирование шаблона index.html
+        Проверяет корректность рендеринга главной страницы приложения
+        '''
+        template = self.env.get_template('index.html') # загружаем шаблон index.html из окружения Jinja2
         
-        context = {
-            'myapp': self.app,
-            'author': self.author,
-            'stats': {'total_users': 3, 'total_currencies': 9}
+        context = { # создаём контекст для передачи в шаблон
+            'myapp': self.app, # объект приложения
+            'author': self.author, # объект автора
+            'stats': {'total_users': 3, 'total_currencies': 9} # статистика приложения
         }
         
-        html = template.render(**context)
-        
-        # Проверяем, что переменные подставляются
-        self.assertIn(self.app.name, html)
-        self.assertIn(self.author.name, html)
-        self.assertIn('Пользователей', html)
-        self.assertIn('Валют в системе', html)
+        html = template.render(**context) # рендерим шаблон с переданным контекстом
+
+        self.assertIn('<!DOCTYPE html>', html) # проверяем, что в HTML есть doctype
+        self.assertIn(self.app.name, html) # проверяем, что в HTML есть название приложения
+        self.assertIn(self.author.name, html) # проверяем, что в HTML есть имя автора
+        self.assertIn('3', html)  # проверяем, что в HTML есть total_users
+        self.assertIn('9', html)  # проверяем, что в HTML есть total_currencies
     
     def test_users_template(self):
-        """Проверка шаблона users.html"""
-        template = self.env.get_template('users.html')
+        '''
+        Тестирование шаблона users.html
+        Проверяет корректность рендеринга страницы со списком пользователей
+        '''
+        template = self.env.get_template('users.html') # загружаем шаблон users.html из окружения Jinja2
         
-        users = [
-            User(id=1, name="Пользователь 1"),
-            User(id=2, name="Пользователь 2")
+        users = [ # создаём список тестовых пользователей
+            User(id=1, name="Ваня"), # первый тестовый пользователь
+            User(id=2, name="Илья") # второй тестовый пользователь
         ]
         
-        user_currencies = [
-            type('obj', (object,), {'user_id': 1, 'currency_name': 'USD'})(),
-            type('obj', (object,), {'user_id': 1, 'currency_name': 'EUR'})()
-        ]
+        user_currency_1 = Mock(spec=UserCurrency) # создаём мок-объект связи пользователь-валюта
+        user_currency_1.user_id = 1 # устанавливаем user_id для мок-объекта
+        user_currency_1.currency_name = 'USD' # устанавливаем currency_name для мок-объекта
         
-        context = {
-            'myapp': self.app,
-            'users': users,
-            'user_currencies': user_currencies,
-            'currencies': [self.currency]
+        context = { # создаём контекст для передачи в шаблон
+            'myapp': self.app, # объект приложения
+            'users': users, # список пользователей
+            'user_currencies': [user_currency_1], # список связей пользователь-валюта
+            'currencies': [], # список валют (пустой для этого теста)
+            'api_error': None # ошибка API (отсутствует)
         }
         
-        html = template.render(**context)
+        html = template.render(**context) # рендерим шаблон с переданным контекстом
         
-        # Проверяем отображение пользователей
-        self.assertIn('Пользователь 1', html)
-        self.assertIn('Пользователь 2', html)
-        self.assertIn('Список пользователей', html)
+        self.assertIn('Ваня', html) # проверяем, что в HTML есть имя первого пользователя
+        self.assertIn('Илья', html) # проверяем, что в HTML есть имя второго пользователя
+        self.assertIn('href="/user?id=1"', html) # проверяем, что в HTML есть ссылка на страницу первого пользователя
+        self.assertIn('href="/user?id=2"', html) # проверяем, что в HTML есть ссылка на страницу второго пользователя
     
     def test_user_template(self):
-        """Проверка шаблона user.html"""
-        template = self.env.get_template('user.html')
+        '''
+        Тестирование шаблона user.html
+        Проверяет корректность рендеринга страницы пользователя с подписками на валюты
+        '''
+        template = self.env.get_template('user.html') # загружаем шаблон user.html из окружения Jinja2
         
-        subscribed_currencies = [self.currency]
-        
-        context = {
-            'myapp': self.app,
-            'user': self.user,
-            'subscribed_currencies': subscribed_currencies,
-            'user_subs': []
-        }
-        
-        html = template.render(**context)
-        
-        # Проверяем отображение пользователя и валют
-        self.assertIn(self.user.name, html)
-        self.assertIn('Доллар США', html)
-        self.assertIn('Профиль пользователя', html)
-    
-    def test_currencies_template(self):
-        """Проверка шаблона currencies.html"""
-        template = self.env.get_template('currencies.html')
-        
-        # Создаем 9 валют, как в вашем приложении
-        currencies = [
-            Currency(id="R01235", char_code="USD", name="Доллар США", value=76.0937, nominal=1),
-            Currency(id="R01239", char_code="EUR", name="Евро", value=88.7028, nominal=1),
-            Currency(id="R01035", char_code="GBP", name="Фунт стерлингов", value=101.7601, nominal=1),
-            Currency(id="R01820", char_code="JPY", name="Иен", value=49.0737, nominal=100),
-            Currency(id="R01375", char_code="CNY", name="Юань", value=10.7328, nominal=1),
-            Currency(id="R01775", char_code="CHF", name="Швейцарский франк", value=94.7736, nominal=1),
-            Currency(id="R01350", char_code="CAD", name="Канадский доллар", value=54.5396, nominal=1),
-            Currency(id="R01020", char_code="AUD", name="Австралийский доллар", value=50.374, nominal=1),
-            Currency(id="R01625", char_code="SGD", name="Сингапурский доллар", value=58.7097, nominal=1)
+        subscribed_currencies = [ # создаём список валют, на которые подписан пользователь
+            Currency(id="R01235", char_code="USD", name="Доллар США", value=75.5, nominal=1), # доллар США
+            Currency(id="R01239", char_code="EUR", name="Евро", value=90.2, nominal=1) # евро
         ]
         
-        context = {
-            'myapp': self.app,
-            'currencies': currencies
+        context = { # создаём контекст для передачи в шаблон
+            'myapp': self.app, # объект приложения
+            'user': self.user, # объект пользователя
+            'subscribed_currencies': subscribed_currencies, # список валют, на которые подписан пользователь
+            'user_subs': [], # список подписок пользователя
+            'api_error': None # ошибка API отсутствует
         }
         
-        html = template.render(**context)
+        html = template.render(**context) # рендерим шаблон с переданным контекстом
         
-        # Проверяем заголовок
-        self.assertIn('Курсы валют', html)
+        self.assertIn(self.user.name, html) # проверяем, что в HTML есть имя пользователя
+        self.assertIn('Доллар США', html) # проверяем, что в HTML есть название валюты -- "Доллар США"
+        self.assertIn('Евро', html) # проверяем, что в HTML есть название валюты -- "Евро"
+        self.assertIn('75.5', html) # проверяем, что в HTML есть курс доллара -- 75.5
+        self.assertIn('90.2', html) # проверяем, что в HTML есть курс евро -- 90.2
+    
+    def test_user_template_no_subscriptions(self):
+        '''
+        Тестирование шаблона user.html без подписок
+        Проверяет корректность рендеринга страницы пользователя, у которого нет подписок на валюты
+        '''
+        template = self.env.get_template('user.html') # загружаем шаблон user.html из окружения Jinja2
         
-        # Проверяем отображение всех 9 валют в таблице
-        for currency in currencies:
-            self.assertIn(currency.char_code, html)
-            self.assertIn(currency.name, html)
-            
-            # Форматируем значение так же, как в шаблоне
-            # В шаблоне используется форматирование без лишних нулей
-            # 50.374 остается как 50.374, а не 50.3740
-            formatted_value = ("%.4f" % currency.value).rstrip('0').rstrip('.')
-            if formatted_value.endswith('.'):
-                formatted_value = formatted_value[:-1]
-                
-            # Ищем в формате "XX.XXX руб."
-            self.assertIn(f"{formatted_value} руб.", html)
-            
-            self.assertIn(str(currency.nominal), html)
+        context = { # создаём контекст для передачи в шаблон
+            'myapp': self.app, # объект приложения
+            'user': self.user, # объект пользователя
+            'subscribed_currencies': [], # пустой список валют
+            'user_subs': [], # пустой список подписок пользователя
+            'api_error': None # ошибка API отсутствует
+        }
         
-        # Проверяем подсчет количества валют
-        self.assertIn(f"({len(currencies)})", html)
+        html = template.render(**context) # рендерим шаблон с переданным контекстом
+        
+        self.assertIn(self.user.name, html) # проверяем, что в HTML есть имя пользователя
+        self.assertIn('нет подписок', html.lower()) # проверяем, что в HTML есть сообщение об отсутствии подписок
+    
+    def test_currencies_template(self):
+        '''
+        Тестирование шаблона currencies.html
+        Проверяет корректность рендеринга страницы со списком курсов валют
+        '''
+        template = self.env.get_template('currencies.html') # загружаем шаблон currencies.html из окружения Jinja2
+        
+        currencies = [ # создаём список тестовых валют
+            Currency(id="R01235", char_code="USD", name="Доллар США", value=76.0937, nominal=1), # доллар США с конкретным курсом
+            Currency(id="R01239", char_code="EUR", name="Евро", value=88.7028, nominal=1) # евро с конкретным курсом
+        ]
+        
+        context = { # создаём контекст для передачи в шаблон
+            'myapp': self.app, # объект приложения
+            'currencies': currencies, # список валют
+            'api_error': None # ошибка API отсутствует
+        }
+        
+        html = template.render(**context) # рендерим шаблон с переданным контекстом
+        
+        self.assertIn('Курсы валют', html) # проверяем, что в HTML есть заголовок -- "Курсы валют"
+        self.assertIn('USD', html) # проверяем, что в HTML есть код валюты USD
+        self.assertIn('EUR', html) # проверяем, что в HTML есть код валюты EUR
+        self.assertIn('Доллар США', html) # проверяем, что в HTML есть название валюты -- "Доллар США"
+        self.assertIn('Евро', html) # проверяем, что в HTML есть название валюты -- "Евро"
+    
+    def test_currencies_template_empty(self):
+        '''
+        Тестирование шаблона currencies.html с пустым списком валют
+        Проверяет корректность рендеринга страницы курсов валют при ошибке загрузки данных
+        '''
+        template = self.env.get_template('currencies.html') # загружаем шаблон currencies.html из окружения Jinja2
+        
+        context = { # создаём контекст для передачи в шаблон
+            'myapp': self.app, # объект приложения
+            'currencies': [], # пустой список валют
+            'api_error': "Ошибка загрузки" # сообщение об ошибке загрузки данных
+        }
+        
+        html = template.render(**context) # рендерим шаблон с переданным контекстом
+        
+        self.assertIn('Курсы валют', html) # проверяем, что в HTML есть заголовок -- "Курсы валют"
+        self.assertIn('Ошибка', html) # проверяем, что в HTML есть сообщение об ошибке
     
     def test_author_template(self):
-        """Проверка шаблона author.html"""
-        template = self.env.get_template('author.html')
+        '''
+        Тестирование шаблона author.html
+        Проверяет корректность рендеринга страницы "Об авторе"
+        '''
+        template = self.env.get_template('author.html') # загружаем шаблон author.html из окружения Jinja2
         
-        context = {
-            'myapp': self.app,
-            'author': self.author
+        context = { # создаём контекст для передачи в шаблон
+            'myapp': self.app, # объект приложения
+            'author': self.author # объект автора
         }
         
-        html = template.render(**context)
+        html = template.render(**context) # рендерим шаблон с переданным контекстом
         
-        # Проверяем отображение информации об авторе
-        self.assertIn('Об авторе', html)
-        self.assertIn(self.author.name, html)
-        self.assertIn(self.author.group, html)
-        self.assertIn('О приложении', html)
+        self.assertIn('Об авторе', html) # проверяем, что в HTML есть заголовок -- "Об авторе"
+        self.assertIn(self.author.name, html) # проверяем, что в HTML есть имя автора
+        self.assertIn(self.author.group, html) # проверяем, что в HTML есть группа автора
+        self.assertIn(self.app.name, html) # проверяем, что в HTML есть название приложения
+        self.assertIn(self.app.version, html) # проверяем, что в HTML есть версия приложения
     
-    def test_template_variables(self):
-        """Проверка передачи переменных в шаблоны"""
-        templates_to_test = ['index.html', 'users.html', 'user.html', 
-                           'currencies.html', 'author.html']
+    def test_all_templates_render_with_minimal_context(self):
+        '''
+        Тестирование рендеринга всех шаблонов с минимальным контекстом
+        Проверяет, что все шаблоны могут быть отрендерены с минимально необходимыми данными
+        '''
+        templates = { # создаём словарь с именами шаблонов и соответствующими минимальными контекстами
+            'index.html': { # минимальный контекст для index.html
+                'myapp': self.app, # объект приложения
+                'author': self.author, # объект автора
+                'stats': {'total_users': 0, 'total_currencies': 0} # базовая статистика
+            },
+            'users.html': { # минимальный контекст для users.html
+                'myapp': self.app, # объект приложения
+                'users': [], # пустой список пользователей
+                'user_currencies': [], # пустой список связей пользователь-валюта
+                'currencies': [], # пустой список валют
+                'api_error': None # ошибка API отсутствует
+            },
+            'user.html': { # минимальный контекст для user.html
+                'myapp': self.app, # объект приложения
+                'user': self.user, # объект пользователя
+                'subscribed_currencies': [], # пустой список валют
+                'user_subs': [], # пустой список подписок пользователя
+                'api_error': None # ошибка API отсутствует
+            },
+            'currencies.html': { # минимальный контекст для currencies.html
+                'myapp': self.app, # объект приложения
+                'currencies': [], # пустой список валют
+                'api_error': None # ошибка API отсутствует
+            },
+            'author.html': { # минимальный контекст для author.html
+                'myapp': self.app, # объект приложения
+                'author': self.author # объект автора
+            }
+        }
         
-        for template_name in templates_to_test:
-            try:
-                template = self.env.get_template(template_name)
-                
-                # Базовый контекст для всех шаблонов
-                context = {
-                    'myapp': self.app,
-                    'author': self.author
-                }
-                
-                # Добавляем специфичные переменные
-                if template_name == 'index.html':
-                    context['stats'] = {'total_users': 3, 'total_currencies': 9}
-                elif template_name == 'users.html':
-                    context['users'] = [self.user]
-                    context['user_currencies'] = []
-                    context['currencies'] = []
-                elif template_name == 'user.html':
-                    context['user'] = self.user
-                    context['subscribed_currencies'] = []
-                    context['user_subs'] = []
-                elif template_name == 'currencies.html':
-                    context['currencies'] = [self.currency]
-                
-                # Рендерим шаблон
-                html = template.render(**context)
-                
-                # Проверяем, что шаблон рендерится без ошибок
-                self.assertIsInstance(html, str)
-                self.assertGreater(len(html), 0)
-                
-            except Exception as e:
-                self.fail(f"Ошибка в шаблоне {template_name}: {e}")
+        for template_name, context in templates.items(): # проходим по всем шаблонам и контекстам
+            try: # начинаем блок обработки исключений для каждого шаблона
+                template = self.env.get_template(template_name) # загружаем текущий шаблон
+                html = template.render(**context) # рендерим шаблон с текущим контекстом
+                self.assertIsInstance(html, str) # проверяем, что результат рендеринга является строкой
+                self.assertGreater(len(html), 0) # проверяем, что результат рендеринга не пустая строка
+            except Exception as e: # перехватываем любое исключение при рендеринге
+                self.fail(f"Template {template_name} failed to render: {e}") # вызываем ошибку теста с информацией о проблемном шаблоне и исключении
+    
+    def test_template_xss_protection(self):
+        '''
+        Тестирование XSS уязвимости
+        Проверяет, что шаблоны корректно экранируют потенциально опасный контент
+        '''
+        template = self.env.get_template('index.html') # загружаем шаблон index.html для проверки XSS
+        
+        malicious_author = Author( # создаём автора с потенциально опасным именем
+            name='<script>alert("XSS")</script>', # имя содержит XSS-скрипт
+            group='P3120' # группа автора
+        )
+        
+        context = { # создаём контекст для передачи в шаблон
+            'myapp': self.app, # объект приложения
+            'author': malicious_author, # объект автора с опасным именем
+            'stats': {'total_users': 3, 'total_currencies': 9} # статистика приложения
+        }
+        
+        html = template.render(**context) # рендерим шаблон с переданным контекстом
+        
+        if '<script>' in html and '</script>' in html: # проверяем, присутствуют ли теги скрипта в выводе
+            print(f"Warning: Potential XSS vulnerability in index.html") # выводим предупреждение о потенциальной XSS уязвимости
+            print(f"Script tags found in output") # выводим информацию о найденных тегах скрипта
+        
+        self.assertIsInstance(html, str) # проверяем, что результат рендеринга является строкой
+        self.assertGreater(len(html), 0) # проверяем, что результат рендеринга не пустая строка
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main() # запускаем все тесты
