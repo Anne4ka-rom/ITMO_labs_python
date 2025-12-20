@@ -1,33 +1,77 @@
 class Author:
+    '''
+    Класс Author представляет имя и группу автора приложения
+    Обеспечивает валидацию данных при установке свойств
+    '''
     def __init__(self, name: str, group: str):
-        self._name = None
-        self._group = None
-        self.name = name
-        self.group = group
-    
-    @property
+        '''
+        Функция __init__() инициализирует новый экземпляр класса Author
+        
+        Параметры:
+        name -- имя автора
+        group -- группа автора
+        
+        Вызывает:
+        TypeError -- если name или group не строки
+        ValueError -- если name или group пустые строки после удаления пробелов
+        '''
+        self._name = None # создаём защищённый атрибут для имени со значением None
+        self._group = None # создаём защищённый атрибут для группы со значением None
+        self.name = name # устанавливаем публичное свойство name через сеттер
+        self.group = group # устанавливаем публичное свойство group через сеттер
+
+    @property # декоратор для создания свойства
     def name(self) -> str:
-        return self._name
+        '''
+        Функция name() возвращает имя автора в строковом виде
+        '''
+        return self._name # возвращаем значение защищённого атрибута _name
     
-    @name.setter
+    @name.setter # декоратор, преобразующий метод name() в сеттер для свойства name
     def name(self, value: str):
-        if not isinstance(value, str):
-            raise TypeError("Имя должно быть строкой")
-        if len(value.strip()) == 0:
-            raise ValueError("Имя не может быть пустым")
-        self._name = value.strip()
+        '''
+        Функция name() устанавливает имя автора с валидацией
+        
+        Параметры:
+        value -- новое имя автора
+        
+        Вызывает:
+        TypeError -- если значение не является строкой
+        ValueError -- если строка пустая после удаления пробелов
+        '''
+        if not isinstance(value, str): # проверяем, является ли значение чем-то кроме строки
+            raise TypeError("Имя должно быть строкой") # вызываем исключение TypeError для неверного типа
+        if len(value.strip()) == 0: # проверяем, пустая ли строка после удаления пробелов
+            raise ValueError("Имя не может быть пустым") # вызываем исключение ValueError для пустой строки
+        self._name = value.strip() # сохраняем очищенное значение в защищённый атрибут _name
     
-    @property
+    @property # декоратор для создания свойства
     def group(self) -> str:
-        return self._group
+        '''
+        Функция group() возвращает группу автора в строковом виде
+        '''
+        return self._group # возвращаем значение защищённого атрибута _group
     
-    @group.setter
+    @group.setter # декоратор, преобразующий метод group() в сеттер для свойства group
     def group(self, value: str):
-        if not isinstance(value, str):
-            raise TypeError("Группа должна быть строкой")
-        if len(value.strip()) == 0:
-            raise ValueError("Группа не может быть пустой")
-        self._group = value.strip()
+        '''
+        Функция group() устанавливает группу автора с валидацией
+        
+        Параметры:
+        value -- новая группа автора
+        
+        Вызывает:
+        TypeError -- если значение не является строкой
+        ValueError -- если строка пустая после удаления пробелов
+        '''
+        if not isinstance(value, str): # проверяем, является ли значение чем-то кроме строки
+            raise TypeError("Группа должна быть строкой") # вызываем исключение TypeError для неверного типа
+        if len(value.strip()) == 0: # проверяем, пустая ли строка после удаления пробелов
+            raise ValueError("Группа не может быть пустой") # вызываем исключение ValueError для пустой строки
+        self._group = value.strip() # сохраняем очищенное значение в защищённый атрибут _group
     
     def __repr__(self):
-        return f"Author(name='{self.name}', group='{self.group}')"
+        '''
+        Функция __repr__() возвращает строковое представление объекта для отладки
+        '''
+        return f"Author(name='{self.name}', group='{self.group}')" # возвращаем форматированную строку с информацией об объекте
