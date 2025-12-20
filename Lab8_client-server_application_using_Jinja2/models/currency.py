@@ -1,85 +1,183 @@
 class Currency:
+    '''
+    Класс Currency представляет валюту с её характеристиками
+    Инкапсулирует данные о валюте и предоставляет методы для работы с ними
+    '''
     def __init__(self, id: str, char_code: str, name: str, value: float, nominal: int, num_code: str = ""):
-        self._id = None
-        self._char_code = None
-        self._name = None
-        self._value = None
-        self._nominal = None
-        self._num_code = None
+        '''
+        Функция __init__() инициализирует новый экземпляр класса Currency
         
-        self.id = id
-        self.char_code = char_code
-        self.name = name
-        self.value = value
-        self.nominal = nominal
-        self.num_code = num_code  # Добавляем инициализацию num_code
+        Параметры:
+        id -- уникальный идентификатор валюты
+        char_code -- символьный код валюты
+        name -- название валюты
+        value -- курс валюты
+        nominal -- номинал валюты
+        num_code -- цифровой код валюты
+        '''
+        self._id = None # создаём защищённый атрибут для уникального идентификатора со значением None
+        self._char_code = None # создаём защищённый атрибут для символьного кода со значением None
+        self._name = None # создаём защищённый атрибут для названия со значением None
+        self._value = None # создаём защищённый атрибут для курса со значением None
+        self._nominal = None # создаём защищённый атрибут для номинала со значением None
+        self._num_code = None # создаём защищённый атрибут для цифрового кода со значением None
+        
+        self.id = id # устанавливаем публичное свойство id через сеттер
+        self.char_code = char_code # устанавливаем публичное свойство char_code через сеттер
+        self.name = name # устанавливаем публичное свойство name через сеттер
+        self.value = value # устанавливаем публичное свойство value через сеттер
+        self.nominal = nominal # устанавливаем публичное свойство nominal через сеттер
+        self.num_code = num_code  # устанавливаем публичное свойство num_code через сеттер
     
-    @property
+    @property # декоратор для создания свойства
     def id(self) -> str:
-        return self._id
+        '''
+        Функция id() возвращает уникальный идентификатор валюты в строковом виде
+        '''
+        return self._id # возвращаем значение защищённого атрибута _id
     
-    @id.setter
+    @id.setter # декоратор, преобразующий метод id() в сеттер для свойства id
     def id(self, value: str):
-        if not isinstance(value, str):
-            raise TypeError("ID должен быть строкой")
-        self._id = value
+        '''
+        Функция id() устанавливает уникальный идентификатор валюты с валидацией
+        
+        Параметры:
+        value -- новый уникальный идентификатор валюты
+        
+        Вызывает:
+        TypeError -- если значение не является строкой
+        '''
+        if not isinstance(value, str): # проверяем, является ли значение чем-то кроме строки
+            raise TypeError("ID должен быть строкой") # вызываем исключение TypeError для неверного типа
+        self._id = value # сохраняем значение в защищённый атрибут _id
     
-    @property
+    @property # декоратор для создания свойства
     def num_code(self) -> str:
-        return self._num_code
+        '''
+        Функция num_code() возвращает цифровой код валюты в в строковом виде
+        '''
+        return self._num_code # возвращаем значение защищённого атрибута _num_code
     
-    @num_code.setter
+    @num_code.setter # декоратор, преобразующий метод num_code() в сеттер для свойства num_code
     def num_code(self, value: str):
-        if not isinstance(value, str):
-            raise TypeError("Цифровой код должен быть строкой")
-        self._num_code = value
+        '''
+        Функция num_code() устанавливает цифровой код валюты с валидацией
+        
+        Параметры:
+        value -- новый цифровой код валюты
+        
+        Вызывает:
+        TypeError -- если значение не является строкой
+        '''
+        if not isinstance(value, str): # проверяем, является ли значение чем-то кроме строки
+            raise TypeError("Цифровой код должен быть числом") # вызываем исключение TypeError для неверного типа
+        self._num_code = value # сохраняем значение в защищённый атрибут _num_code
     
-    @property
+    @property # декоратор для создания свойства
     def char_code(self) -> str:
-        return self._char_code
+        '''
+        Функция char_code() возвращает символьный код валюты в строковом виде
+        '''
+        return self._char_code # возвращаем значение защищённого атрибута _char_code
     
-    @char_code.setter
+    @char_code.setter # декоратор, преобразующий метод char_code() в сеттер для свойства char_codeer
     def char_code(self, value: str):
-        if not isinstance(value, str):
-            raise TypeError("Символьный код должен быть строкой")
-        self._char_code = value
+        '''
+        Функция char_code() устанавливает символьный код валюты с валидацией
+        
+        Параметры:
+        value -- новый символьный код валюты
+        
+        Вызывает:
+        TypeError -- если значение не является строкой
+        '''
+        if not isinstance(value, str): # проверяем, является ли значение чем-то кроме строки
+            raise TypeError("Символьный код должен быть строкой") # вызываем исключение TypeError для неверного типа
+        self._char_code = value # сохраняем значение в защищённый атрибут _char_code
     
-    @property
+    @property # декоратор для создания свойства
     def name(self) -> str:
-        return self._name
+        '''
+        Функция name() возвращает название валюты в строковом виде
+        '''
+        return self._name # возвращаем значение защищённого атрибута _name
     
-    @name.setter
+    @name.setter # декоратор, преобразующий метод name() в сеттер для свойства name
     def name(self, value: str):
-        if not isinstance(value, str):
-            raise TypeError("Название должно быть строкой")
-        self._name = value
+        '''
+        Функция name() устанавливает название валюты с валидацией
+        
+        Параметры:
+        value -- новое название валюты
+        
+        Вызывает:
+        TypeError -- если значение не является строкой
+        '''
+        if not isinstance(value, str): # проверяем, является ли значение чем-то кроме строки
+            raise TypeError("Название должно быть строкой") # вызываем исключение TypeError для неверного типа
+        self._name = value # сохраняем значение в защищённый атрибут _name
     
-    @property
+    @property # декоратор для создания свойства
     def value(self) -> float:
-        return self._value
+        '''
+        Функция value() возвращает курс валюты в виде числа с плавающей точкой
+        '''
+        return self._value # возвращаем значение защищённого атрибута _value
     
-    @value.setter
+    @value.setter # декоратор, преобразующий метод value() в сеттер для свойства value
     def value(self, value: float):
-        if not isinstance(value, (int, float)):
-            raise TypeError("Курс должен быть числом")
-        if value <= 0:
-            raise ValueError("Курс должен быть положительным числом")
-        self._value = float(value)
+        '''
+        Функция value() устанавливает курс валюты с валидацией
+        
+        Параметры:
+        value -- новый курс валюты
+        
+        Вызывает:
+        TypeError -- если значение не является числом
+        ValueError -- если значение не является положительным числом
+        '''
+        if not isinstance(value, (int, float)): # проверяем, является ли значение чем-то кроме числа
+            raise TypeError("Курс должен быть числом") # вызываем исключение TypeError для неверного типа
+        if value <= 0: # проверяем, является ли значение неположительным числом
+            raise ValueError("Курс должен быть положительным числом") # вызываем исключение ValueError для неположительного числа
+        self._value = float(value) # сохраняем значение в защищённый атрибут _value, преобразуя к типу float
     
-    @property
+    @property # декоратор для создания свойства
     def nominal(self) -> int:
-        return self._nominal
+        '''
+        Функция nominal() возвращает номинал валюты в виде целого числа
+        '''
+        return self._nominal # возвращаем значение защищённого атрибута _nominal
     
-    @nominal.setter
+    @nominal.setter # декоратор, преобразующий метод nominal() в сеттер для свойства nominal
     def nominal(self, value: int):
-        if not isinstance(value, int):
-            raise TypeError("Номинал должен быть целым числом")
-        if value <= 0:
-            raise ValueError("Номинал должен быть положительным числом")
-        self._nominal = value
+        '''
+        Функция nominal() устанавливает номинал валюты с валидацией
+        
+        Параметры:
+        value -- новый номинал валюты
+        
+        Вызывает:
+        TypeError -- если значение не является целым числом
+        ValueError -- если значение не является положительным целым числом
+        '''
+        if not isinstance(value, int): # проверяем, является ли значение чем-то кроме целого числа
+            raise TypeError("Номинал должен быть целым числом") # вызываем исключение TypeError для неверного типа
+        if value <= 0: # проверяем, является ли значение неположительным числом
+            raise ValueError("Номинал должен быть положительным числом") # вызываем исключение ValueError для неположительного числа
+        self._nominal = value # сохраняем значение в защищённый атрибут _nominal
     
     def get_value_per_unit(self) -> float:
-        return self.value / self.nominal
+        '''
+        Функция get_value_per_unit() рассчитывает курс за единицу валюты путём деления общего курса на номинал
+        
+        Возвращает:
+        Число с плавающей точкой -- курс за одну единицу валюты
+        '''
+        return self.value / self.nominal # делим курс на номинал и возвращаем результат
     
     def __repr__(self):
-        return f"Currency(id='{self.id}', char_code='{self.char_code}', name='{self.name}', value={self.value}, nominal={self.nominal})"
+        '''
+        Функция __repr__() возвращает строковое представление объекта для отладки
+        '''
+        return f"Currency(id='{self.id}', char_code='{self.char_code}', name='{self.name}', value={self.value}, nominal={self.nominal}, num_code='{self.num_code}')" # возвращаем форматированную строку с информацией об объекте
