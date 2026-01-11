@@ -38,28 +38,51 @@
 - nominal — номинал (за сколько единиц валюты указан курс)
 # **3. Структура проекта**
 Lab8/
+
 ├── models/ # Модели предметной области (MVC-Model)
+
 │ ├── __init__.py # Импорт всех моделей
+
 │ ├── author.py # Класс Author
+
 │ ├── app.py # Класс App
+
 │ ├── user.py # Класс User
+
 │ ├── currency.py # Класс Currency
+
 │ └── user_currency.py # Класс UserCurrency
+
 ├── templates/ # Шаблоны Jinja2 (MVC-View)
+
 │ ├── index.html # Главная страница
+
 │ ├── users.html # Список пользователей
+
 │ ├── user.html # Страница пользователя
+
 │ ├── currencies.html # Курсы валют
+
 │ └── author.html # Об авторе
+
 ├── static/ # Статические файлы
+
 │ └── style.css # CSS стили
+
 ├── utils/ # Утилиты
+
 │ └── currencies_api.py # Функции работы с API ЦБ РФ
+
 ├── tests/ # Тесты
+
 │ ├── test_models.py # Тесты моделей
+
 │ ├── test_currencies_api.py # Тесты API
+
 │ ├── test_myapp.py # Тесты сервера
+
 │ └── test_templates.py # Тесты шаблонов
+
 └── myapp.py # Основной файл приложения (MVC-Controller)
 # **4. Фрагменты логов**
 Все модели реализованы с использованием геттеров и сеттеров для обеспечения валидации данных:
