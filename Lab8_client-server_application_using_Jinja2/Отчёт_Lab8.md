@@ -175,19 +175,24 @@ def init_currencies():
 ```
 # **5. Тесты**
 ## **Главная страница (/)**
-![Отчёт_Lab8](Attachments/Отчёт_Lab8.png)
+<img width="650" height="220" alt="main" src="https://github.com/user-attachments/assets/2f76a454-3b88-4d15-9979-3e93cd8ee46c" />
+
 Отображает статистику приложения: количество пользователей и валют, имя и группу автора
 ## **Список пользователей (/users)**
-![Отчёт_Lab8](<Attachments/Отчёт_Lab8%201.png>)
+<img width="650" height="187" alt="users" src="https://github.com/user-attachments/assets/7c10b1be-bc3f-433b-91e2-3e9d56d59bf9" />
+
 Таблица со списком всех пользователей, количеством их подписок и ссылками на детальную информацию
 ## **Страница пользователя (/user?id=1)**
-**![Отчёт_Lab8](<Attachments/Отчёт_Lab8%202.png>)
+<img width="650" height="430" alt="user" src="https://github.com/user-attachments/assets/6dbedf00-9626-4d1a-a21b-342f0befb18f" />
+
 Детальная информация о пользователе и список валют, на которые он подписан
 ## Курсы валют (/currencies)**
-**![Отчёт_Lab8](<Attachments/Отчёт_Lab8%203.png>)
+<img width="650" height="322" alt="currencies" src="https://github.com/user-attachments/assets/6a7d671c-ecc6-4048-9a32-dff0b769263a" />
+
 Таблица с 9 валютами: USD, EUR, GBP, JPY, CNY, CHF, CAD, AUD, SGD
 ## Об авторе (/author)
-![Отчёт_Lab8](<Attachments/Отчёт_Lab8%204.png>)
+<img width="650" height="562" alt="author" src="https://github.com/user-attachments/assets/09a1661f-11cf-4808-b9fb-a21825a0c526" />
+
 Информация об авторе приложения и о самом приложении
 # 6. Тесты
 ## test_currencies_api.py
